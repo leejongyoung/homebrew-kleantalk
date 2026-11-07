@@ -6,6 +6,7 @@ cask "kleantalk" do
   name "KleanTalk"
   desc "맥 카카오톡 하단 광고를 빈 공간으로 바꾸는 무료 오픈소스 앱"
   homepage "https://github.com/leejongyoung/KleanTalk"
+  depends_on macos: ">= :monterey"
 
   livecheck do
     url :url
