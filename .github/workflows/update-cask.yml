@@ -16,14 +16,14 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if ./update.sh; then
-            git diff --quiet && exit 0
-            VERSION=$(grep -m1 'version "' Casks/kleantalk.rb | cut -d'"' -f2)
-            git checkout -qb "bump-$VERSION"
-            git -c user.name=github-actions -c user.email=github-actions@github.com \
-              commit -qam "chore: KleanTalk $VERSION"
-            git push -q origin "bump-$VERSION"
-            gh pr create --title "chore: KleanTalk $VERSION" \
-              --body "fork 릴리스를 따라 Cask 버전·SHA-256 갱신 (자동)." \
-              --base main --head "bump-$VERSION"
-          fi
+          set -euo pipefail
+          ./update.sh
+          git diff --quiet && exit 0
+          VERSION=$(grep -m1 'version "' Casks/kleantalk.rb | cut -d'"' -f2)
+          git checkout -qb "bump-$VERSION"
+          git -c user.name=github-actions -c user.email=github-actions@github.com \
+            commit -qam "chore: KleanTalk $VERSION"
+          git push -q origin "bump-$VERSION"
+          gh pr create --title "chore: KleanTalk $VERSION" \
+            --body "fork 릴리스를 따라 Cask 버전·SHA-256 갱신 (자동)." \
+            --base main --head "bump-$VERSION"
