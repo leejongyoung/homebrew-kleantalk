@@ -1,0 +1,14 @@
+name: Test Cask updater
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  updater:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Offline BSD sed and check-mode regression tests
+        run: python3 -m unittest discover -s tests -v
